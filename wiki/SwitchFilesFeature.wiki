@@ -1,0 +1,8 @@
+#summary This page explains on how to use the SwitchFilesFeature.
+
+= SwitchFileFeature =
+
+This feature is a function mapped to the shortcut (Ctrl-Alt-X) which allows you to switch back and forth between a tapestry template file and a tapestry component file. E.g you can switch from WizardPage.java to WizardPage.tml. Further characteristics are:
+
+* a file which is being switched to will be opened in case it wasn't before
+* the default ending of .tml can be changed on the preferences page to .html 
