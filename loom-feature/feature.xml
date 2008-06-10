@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="loom_feature"
+      label="Loom Plugin For Tapestry 5"
+      version="1.0.0"
+      provider-name="digitalsoul.org"
+      plugin="loom_core">
+
+   <copyright>
+      Copyright 2008 Loom Developers. Loom is licensed under the GPL version 3. 
+      Please refer to the URL http://www.gnu.org/licenses/gpl-3.0.html for details.
+   </copyright>
+
+   <license url="http://www.gnu.org/licenses/gpl-3.0.html">
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see http://www.gnu.org/licenses/.
+   </license>
+
+   <url>
+      <update label="Loom Update Site" url="http://digitalsoul.org/loom/update-site"/>
+   </url>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui.ide"/>
+   </requires>
+
+   <plugin
+         id="loom_core"
+         download-size="0"
+         install-size="0"
+         version="1.0.0"
+         unpack="false"/>
+
+</feature>
