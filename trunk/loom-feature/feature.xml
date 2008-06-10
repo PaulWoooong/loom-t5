@@ -6,13 +6,17 @@
       provider-name="digitalsoul.org"
       plugin="loom_core">
 
+   <description url="http://code.google.com/p/loom-t5">
+      This feature provides basic functionalities to work with tapestry 5 in eclipse.
+   </description>
+
    <copyright>
       Copyright 2008 Loom Developers. Loom is licensed under the GPL version 3. 
       Please refer to the URL http://www.gnu.org/licenses/gpl-3.0.html for details.
    </copyright>
 
    <license url="http://www.gnu.org/licenses/gpl-3.0.html">
-    This program is free software: you can redistribute it and/or modify
+      This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
