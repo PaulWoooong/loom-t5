@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="org.eclipse.ui.category.navigate"
+            id="loom-core.switchDefintion"
+            name="Open Template/JavaFile Command">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="loom-core.switchDefintion"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M3+M4+X">
+      </key>
+   </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="loom-core.actionSet1"
+            label="My ActionSet"
+            visible="true">
+         <action
+               class="org.digitalsoul.loom.core.SwitchMenubarAction"
+               definitionId="loom-core.switchDefintion"
+               id="loom-core.action1"
+               label="Switch To Template/JavaFile"
+               menubarPath="navigate/goTo/additions"
+               tooltip="Switch To Template/JavaFile">
+         </action>
+      </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="Loom"
+            class="org.digitalsoul.loom.core.prefs.PreferencesPage"
+            id="org.digitalsoul.loom.core.prefs.PreferencesPage"
+            name="Loom">
+      </page>
+   </extension>
+
+</plugin>

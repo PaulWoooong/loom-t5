@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Loom Core Plugin For Tapestry 5
+Bundle-SymbolicName: loom_core;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: org.digitalsoul.loom.core.LoomCorePlugin
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.ide,
+ org.eclipse.core.resources,
+ org.eclipse.jdt.ui,
+ org.eclipse.jdt,
+ org.eclipse.jdt.core
+Eclipse-LazyStart: true
+Bundle-Vendor: digitalsoul.org
