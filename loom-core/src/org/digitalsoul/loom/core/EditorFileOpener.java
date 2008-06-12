@@ -5,6 +5,7 @@
  */
 package org.digitalsoul.loom.core;
 
+import org.digitalsoul.loom.core.prefs.Preferences;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -37,7 +38,7 @@ public class EditorFileOpener {
     private String templateFileExtension;
 
     public EditorFileOpener() {
-        templateFileExtension = LoomCorePlugin.getDefault().getPreferenceStore().getString(LoomConstants.TEMPLATE_FILE_EXTENSION);
+        templateFileExtension = Preferences.getTemplateFileExtension();
         fileMap = new HashMap<String, IFile>();
     }
 
