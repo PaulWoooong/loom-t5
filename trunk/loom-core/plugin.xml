@@ -26,7 +26,7 @@
          <action
                class="org.digitalsoul.loom.core.SwitchMenubarAction"
                definitionId="loom-core.switchDefintion"
-               id="loom-core.action1"
+               id="loom-core.switchFilesAction"
                label="Switch To Template/JavaFile"
                menubarPath="navigate/goTo/additions"
                tooltip="Switch To Template/JavaFile">
@@ -41,6 +41,32 @@
             id="org.digitalsoul.loom.core.prefs.PreferencesPage"
             name="Loom">
       </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="loom-core.objectContribution1"
+            nameFilter="*.java"
+            objectClass="org.eclipse.jdt.core.IJavaElement">
+         <menu
+               id="loom-core.menu"
+               label="Loom">
+            <separator
+                  name="content">
+            </separator>
+            <separator
+                  name="additions">
+            </separator>
+         </menu>
+         <action
+               class="org.digitalsoul.loom.core.CreateTemplateAction"
+               enablesFor="1"
+               id="loom-core.createTemplateAction"
+               label="Create Template for this Class"
+               menubarPath="loom-core.menu/content"
+               style="push">
+         </action>
+      </objectContribution>
    </extension>
 
 </plugin>
