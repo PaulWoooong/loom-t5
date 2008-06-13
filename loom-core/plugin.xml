@@ -14,7 +14,7 @@
       <key
             commandId="loom-core.switchDefintion"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M3+M4+X">
+            sequence="Ctrl+Alt+X">
       </key>
    </extension>
    <extension
@@ -46,7 +46,7 @@
          point="org.eclipse.ui.popupMenus">
       <objectContribution
             id="loom-core.objectContribution1"
-            nameFilter="*.java"
+            nameFilter="*.javaxxxx"
             objectClass="org.eclipse.jdt.core.IJavaElement">
          <menu
                id="loom-core.menu"
