@@ -2,7 +2,7 @@
 <feature
       id="loom_feature"
       label="Loom Plugin For Tapestry 5"
-      version="1.0.1"
+      version="1.0.2"
       provider-name="http://code.google.com/p/loom-t5"
       plugin="loom_core">
 
@@ -51,7 +51,7 @@
          id="loom_core"
          download-size="0"
          install-size="0"
-         version="1.0.1"
+         version="1.0.2"
          unpack="false"/>
 
 </feature>
