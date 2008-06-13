@@ -1,8 +1,6 @@
-#summary This page explains on how to use the SwitchFilesFeature.
-
 = SwitchFilesFeature =
 
-This feature is a function which can be found in the navigate menubar which allows you to switch back and forth between a tapestry template file and a tapestry component file. 
+This feature is a function which can be found in the navigate menubar (Navigate > Go To > Switch to Template/JavaFile) which allows you to switch back and forth between a tapestry template file and a tapestry component file. 
 E.g you can switch from `WizardPage.java` to `WizardPage.tml` 
 
 Further characteristics are:
