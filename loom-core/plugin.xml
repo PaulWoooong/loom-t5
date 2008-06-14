@@ -46,7 +46,7 @@
          point="org.eclipse.ui.popupMenus">
       <objectContribution
             id="loom-core.objectContribution1"
-            nameFilter="*.javaxxxx"
+            nameFilter="*.java"
             objectClass="org.eclipse.jdt.core.IJavaElement">
          <menu
                id="loom-core.menu"
