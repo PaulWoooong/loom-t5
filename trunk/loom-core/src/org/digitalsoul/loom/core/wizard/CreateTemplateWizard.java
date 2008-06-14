@@ -1,21 +1,22 @@
 package org.digitalsoul.loom.core.wizard;
 
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.wizard.Wizard;
+
+import java.io.IOException;
 
 public class CreateTemplateWizard extends Wizard {
 
     private CreateTemplateWizardPage page;
-    private IJavaElement javaElement;
 
-    public CreateTemplateWizard(IJavaElement javaElement, String filename, String projectPath, String relativeFolder) {
-        this.javaElement = javaElement;
-        //filename = filename.replace("." + LoomConstants.JAVA_FILE_EXTENSION, "." + LoomConstants.TEMPLATE_FILE_EXTENSION);
+    public CreateTemplateWizard(IJavaElement javaElement, String filename) {
         page = new CreateTemplateWizardPage("Create Template");
         page.setDescription("Choose a package and a name for your Template");
         page.init(javaElement, filename);
-        //setWindowTitle("Create Template");
         addPage(page);
     }
     
@@ -32,9 +33,17 @@ public class CreateTemplateWizard extends Wizard {
 
     @Override
     public boolean performFinish() {
-        // create the file
-       // System.err.println(page.getCreatedType().getPath());
-        System.err.println(page.getNewTemplatePath());
+        IPath newFilePath = page.getNewTemplatePath();
+        try {
+            newFilePath.toFile().createNewFile();
+            page.getPackageFragment().getResource().refreshLocal(IResource.DEPTH_INFINITE, null);
+        }
+        catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        catch (CoreException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 }

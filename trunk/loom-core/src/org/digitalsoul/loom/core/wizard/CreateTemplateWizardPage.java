@@ -30,13 +30,6 @@ public class CreateTemplateWizardPage extends NewTypeWizardPage {
         this.filename = filename;
     }
 
-//    private boolean isPackageFragmentExisting() {
-//        if (getPackageFragment() == null) {
-//            return false;
-//        }
-//        else return getPackageFragment().exists();
-//    }
-
     @Override
     public boolean isPageComplete() {
         return !status.matches(IStatus.ERROR) && !isFileAlreadyAvailable();
@@ -57,25 +50,6 @@ public class CreateTemplateWizardPage extends NewTypeWizardPage {
         updateStatus(status);
         return status;
     }
-
-//    @Override
-//    protected void handleFieldChanged(String fieldName) {
-//
-//        if (nameField != null) { 
-//            
-//          setPageComplete(isPageComplete());
-//          
-//          if (!isPageComplete()) {
-//              if (isFileAlreadyAvailable()) {
-//                  setErrorMessage("This template already exists");
-//              }
-//              else if (!isPackageFragmentExisting()) {
-//                  setMessage("This package doesn't exist but will be created", IStatus.WARNING);
-//              }
-//          }
-//          else setErrorMessage(null);
-//        }
-//    }
 
     private void createNameRow(Composite composite) {
         Label label = new Label(composite, SWT.NONE);
@@ -116,17 +90,6 @@ public class CreateTemplateWizardPage extends NewTypeWizardPage {
 
     public IPath getNewTemplatePath() {
         IPath path = getPackageFragment().getResource().getLocation();
-       // if (getPackageFragment() != null) {
-            
-//        }
-//        else {
-//            System.err.println("no packagefragment found");
-//            String text = getPackageText();
-//            path = getPackageFragmentRoot().getResource().getLocation();
-//            for (String part : text.split(".")) {
-//                path = path.append(part);
-//            }
-//        }
         path = path.append(nameField.getText());
         return path;
     }
