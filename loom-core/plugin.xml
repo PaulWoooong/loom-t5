@@ -6,7 +6,7 @@
       <command
             categoryId="org.eclipse.ui.category.navigate"
             id="loom-core.switchDefintion"
-            name="Open Template/JavaFile Command">
+            name="Switch To Template/JavaFile">
       </command>
    </extension>
    <extension
