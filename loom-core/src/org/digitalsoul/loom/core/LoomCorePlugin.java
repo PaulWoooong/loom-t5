@@ -5,6 +5,7 @@
  */
 package org.digitalsoul.loom.core;
 
+import org.digitalsoul.loom.core.prefs.Preferences;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -37,6 +38,7 @@ public class LoomCorePlugin extends AbstractUIPlugin {
     @Override
     protected void initializeDefaultPreferences(IPreferenceStore store) {
         super.initializeDefaultPreferences(store);
-        store.setDefault(LoomConstants.TEMPLATE_FILE_EXTENSION, LoomConstants.TML_FILE_EXTENSION);
+        Preferences.setupDefaults(store);
+        
     }
 }
