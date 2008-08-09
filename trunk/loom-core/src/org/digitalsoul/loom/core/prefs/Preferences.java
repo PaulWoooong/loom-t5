@@ -18,9 +18,14 @@ public class Preferences {
     public static String getTemplateFragmentRootPath() {
         return get(LoomConstants.TEMPLATE_PACKAGE_FRAGMENT_ROOT_KEY);        
     }
+    
+    public static String getSwitchFileIgnoredFolderNames () {
+        return get(LoomConstants.IGNORED_FOLDERS_KEY);
+    }
 
     public static void setupDefaults(IPreferenceStore store) {
         store.setDefault(LoomConstants.TEMPLATE_FILE_EXTENSION_KEY, LoomConstants.TML_FILE_EXTENSION);
         store.setDefault(LoomConstants.TEMPLATE_PACKAGE_FRAGMENT_ROOT_KEY, LoomConstants.DEFAULT_TEMPLATE_PACKAGE_FRAGMENT_ROOT);
+        store.setDefault(LoomConstants.IGNORED_FOLDERS_KEY, LoomConstants.DEFAULT_IGNORED_FOLDERS);
     }
 }
