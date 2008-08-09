@@ -59,7 +59,7 @@
             </separator>
          </menu>
          <action
-               class="org.digitalsoul.loom.core.CreateTemplateAction"
+               class="org.digitalsoul.loom.core.StartTemplateWizardAction"
                enablesFor="1"
                id="loom-core.createTemplateAction"
                label="Create Template for this Class"

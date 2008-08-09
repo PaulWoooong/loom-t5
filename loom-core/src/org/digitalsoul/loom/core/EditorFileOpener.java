@@ -1,12 +1,12 @@
 /**
- * Copyright 2008 Loom Developers. This file is part of the loom eclipse plugin for eclipse
- * and is licensed under the GPL version 3. 
- * Please refer to the URL http://www.gnu.org/licenses/gpl-3.0.html for details.
+ * Copyright 2008 Loom Developers. This file is part of the loom eclipse plugin for eclipse and is licensed under the
+ * GPL version 3. Please refer to the URL http://www.gnu.org/licenses/gpl-3.0.html for details.
  */
 package org.digitalsoul.loom.core;
 
 import org.digitalsoul.loom.core.prefs.Preferences;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -14,9 +14,12 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.dom.MarkerAnnotation;
+import org.eclipse.jdt.internal.core.JavaElement;
 import org.eclipse.jdt.internal.core.JavaProject;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -38,11 +41,12 @@ public class EditorFileOpener {
     private String templateFileExtension;
 
     public EditorFileOpener() {
+
         templateFileExtension = Preferences.getTemplateFileExtension();
         fileMap = new HashMap<String, IFile>();
     }
 
-    private void openFileInEditor(IFile theFile) {
+    public void openFileInEditor(IFile theFile) {
 
         IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
         try {
@@ -59,7 +63,7 @@ public class EditorFileOpener {
         if (file != null) {
             synchronizeFile(file, true);
             if (file.exists() && file.isAccessible()) {
-                //                System.err.println("oh my god it's cached!");
+                // System.err.println("oh my god it's cached!");
                 return file;
             }
             else {
@@ -93,11 +97,18 @@ public class EditorFileOpener {
 
             if (searchFilename.endsWith(LoomConstants.JAVA_FILE_EXTENSION)) {
                 searchFilename = searchFilename.replace(LoomConstants.JAVA_FILE_EXTENSION, templateFileExtension);
-                foundFile = switchToTemplate(searchFilename, project);
+//                foundFile = switchToTemplate(searchFilename, project);
             }
             else if (searchFilename.endsWith(templateFileExtension)) {
                 searchFilename = searchFilename.replace(templateFileExtension, LoomConstants.JAVA_FILE_EXTENSION);
-                foundFile = switchToJavaFile(searchFilename, project);
+//                foundFile = switchToTemplate(searchFilename, project);
+                //foundFile = switchToJavaFile(searchFilename, project);
+            }
+            
+            foundFile = findCachedFile(searchFilename);
+            
+            if (foundFile == null) {
+                foundFile = switchToFile(searchFilename, project);
             }
 
             if (foundFile != null) {
@@ -111,18 +122,18 @@ public class EditorFileOpener {
         }
     }
 
-    private IFile switchToJavaFile(String searchFilename, IJavaProject project) {
+//    private IFile switchToJavaFile(String searchFilename, IJavaProject project) {
+//
+//        IFile foundFile = null;
+//        // foundFile = findCachedFile(searchFilename);
+//
+//        if (foundFile == null) {
+//            foundFile = findJavaFile(searchFilename, project);
+//        }
+//        return foundFile;
+//    }
 
-        IFile foundFile = null;
-        foundFile = findCachedFile(searchFilename);
-
-        if (foundFile == null) {
-            foundFile = findJavaFile(searchFilename, project);
-        }
-        return foundFile;
-    }
-
-    private IFile switchToTemplate(String searchFilename, IJavaProject project) {
+    private IFile switchToFile(String searchFilename, IJavaProject project) {
 
         IFile foundFile = null;
 
@@ -132,7 +143,7 @@ public class EditorFileOpener {
             try {
                 IPath projectPath = project.getCorrespondingResource().getLocation();
                 File searchFolder = new File(projectPath.toPortableString());
-                String pathURL = findFile(searchFilename, searchFolder);
+                String pathURL = findFile(searchFilename, searchFolder, project);
                 Path path = new Path(pathURL);
                 foundFile = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocation(path)[0];
             }
@@ -151,7 +162,7 @@ public class EditorFileOpener {
         }
     }
 
-    private String findFile(String searchFilename, File searchFolder) {
+    private String findFile(String searchFilename, File searchFolder, IJavaProject project) {
 
         String path = null;
         for (File file : searchFolder.listFiles()) {
@@ -159,54 +170,66 @@ public class EditorFileOpener {
             // ignore hidden and target directories
             if (file.isDirectory() && !file.getName().startsWith(".") && !file.getName().equals("target")) {
 
-                String aPath = findFile(searchFilename, file);
+                String aPath = findFile(searchFilename, file, project);
                 if (aPath != null) {
                     path = aPath;
                 }
             }
             else if (file.getName().equals(searchFilename)) {
-                return file.getPath();
+                if (!isDerived(file, project)) {
+                    return file.getPath();
+                }
             }
         }
         return path;
     }
 
-    //    @Test
-    //    public void testFindFile() {
+    // @Test
+    // public void testFindFile() {
     //
-    //        File tmpFoo = new File("/tmp/foo");
-    //        Assert.assertEquals(tmpFoo.exists(), true);
+    // File tmpFoo = new File("/tmp/foo");
+    // Assert.assertEquals(tmpFoo.exists(), true);
     //
-    //        String filePath = findFile("file", tmpFoo);
-    //        File file = new File(filePath);
-    //        Assert.assertEquals(file.exists(), true);
-    //    }
+    // String filePath = findFile("file", tmpFoo);
+    // File file = new File(filePath);
+    // Assert.assertEquals(file.exists(), true);
+    // }
 
-    private IFile findJavaFile(String filename, IJavaProject project) {
+    private boolean isDerived(File file, IJavaProject project) {
 
-        IFile foundFile = null;
-        try {
-            IPackageFragment[] fragments = project.getPackageFragments();
-
-            for (IPackageFragment fragment : fragments) {
-
-                if (foundFile != null) break;
-
-                for (ICompilationUnit unit : fragment.getCompilationUnits()) {
-
-                    if (unit.getElementName().equals(filename)) {
-                        foundFile = (IFile) unit.getResource();
-                        break;
-                    }
-                }
-            }
+        Path path = new Path(file.getAbsolutePath());
+        IFile ifile = project.getProject().getFile(path);
+        if (ifile != null) {
+            return ifile.isDerived();
         }
-        catch (JavaModelException e) {
-            e.printStackTrace();
-        }
-
-        return foundFile;
+        return false;
     }
+
+//    private IFile findJavaFile(String filename, IJavaProject project) {
+//
+//        IFile foundFile = null;
+//        try {
+//            IPackageFragment[] fragments = project.getPackageFragments();
+//
+//            for (IPackageFragment fragment : fragments) {
+//
+//                if (foundFile != null) break;
+//
+//                for (ICompilationUnit unit : fragment.getCompilationUnits()) {
+//
+//                    if (unit.getElementName().equals(filename)) {
+//                        foundFile = (IFile) unit.getResource();
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//        catch (JavaModelException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return foundFile;
+//    }
 
     private IJavaProject convertToJavaProject(IProject project) {
 
@@ -235,6 +258,7 @@ public class EditorFileOpener {
     }
 
     public void setTemplateFileExtension(String selectedItem) {
-        this.templateFileExtension = selectedItem;        
+
+        this.templateFileExtension = selectedItem;
     }
 }

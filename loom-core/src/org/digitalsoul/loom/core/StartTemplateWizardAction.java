@@ -1,5 +1,7 @@
 package org.digitalsoul.loom.core;
 
+import org.eclipse.jdt.core.ICompilationUnit;
+
 import org.digitalsoul.loom.core.prefs.Preferences;
 import org.digitalsoul.loom.core.wizard.CreateTemplateWizard;
 import org.eclipse.jdt.core.IJavaElement;
@@ -11,20 +13,21 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 
-public class CreateTemplateAction implements IObjectActionDelegate {
+public class StartTemplateWizardAction implements IObjectActionDelegate {
 
-    private IJavaElement javaElement;
+    private ICompilationUnit javaElement;
 
     public void run(IAction action) {
-        String templateFilename = javaElement.getElementName();
-        templateFilename = templateFilename.replace(LoomConstants.JAVA_FILE_EXTENSION, Preferences.getTemplateFileExtension());
-        CreateTemplateWizard wizard = new CreateTemplateWizard(javaElement, templateFilename);
-        new WizardDialog(LoomCorePlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), wizard).open(); 
+//        String templateFilename = javaElement.getElementName();
+//        templateFilename = templateFilename.replace(LoomConstants.JAVA_FILE_EXTENSION, Preferences.getTemplateFileExtension());
+//        CreateTemplateWizard wizard = new CreateTemplateWizard(javaElement, templateFilename);
+//        new WizardDialog(LoomCorePlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), wizard).open();
+        new TemplateBuilder().createTemplate(javaElement);
     }
 
     public void selectionChanged(IAction action, ISelection _selection) {
         IStructuredSelection selection = (IStructuredSelection) _selection;
-        this.javaElement = (IJavaElement)selection.getFirstElement();
+        this.javaElement = (ICompilationUnit)selection.getFirstElement();
     }
 
     public void setActivePart(IAction action, IWorkbenchPart targetPart) {

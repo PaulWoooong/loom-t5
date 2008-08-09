@@ -1,7 +1,6 @@
 package org.digitalsoul.loom.core.wizard;
 
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.ui.wizards.NewTypeWizardPage;
 import org.eclipse.swt.SWT;
@@ -18,38 +17,44 @@ public class CreateTemplateWizardPage extends NewTypeWizardPage {
 
     private Text nameField;
     private String filename;
-    private IStatus status;
+    // private IStatus status;
 
     protected CreateTemplateWizardPage(String pageName) {
         super(false, pageName);
     }
 
     public void init(IJavaElement javaElement, String filename) {
-        initContainerPage(javaElement);
+        //initContainerPage(javaElement);
         initTypePage(javaElement);
         this.filename = filename;
     }
 
     @Override
     public boolean isPageComplete() {
-        return !status.matches(IStatus.ERROR) && !isFileAlreadyAvailable();
+        return !isFileAlreadyAvailable(); 
+        //return !status.matches(IStatus.ERROR) && !isFileAlreadyAvailable();
     }
 
     public void createControl(Composite parent) {
         Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayout(new GridLayout(4, false));
-        createPackageControls(composite, 4);
+        // createPackageControls(composite, 4);
+        cratePackageLabelRow(composite);
         createNameRow(composite);
         setControl(composite);
     }
     
-    @Override
-    protected IStatus packageChanged() {
-        IStatus status = super.packageChanged();
-        this.status = status;
-        updateStatus(status);
-        return status;
+    private void cratePackageLabelRow(Composite composite) {
+
     }
+
+//    @Override
+//    protected IStatus packageChanged() {
+//        IStatus status = super.packageChanged();
+//        this.status = status;
+//        updateStatus(status);
+//        return status;
+//    }
 
     private void createNameRow(Composite composite) {
         Label label = new Label(composite, SWT.NONE);

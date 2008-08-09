@@ -22,8 +22,8 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 public class PreferencesPage extends PreferencePage implements IWorkbenchPreferencePage {
 
-    private Combo fileExtensionCombo;
-    private Text templateFragmentRootTextField;
+    protected Combo fileExtensionCombo;
+    protected Text templateFragmentRootTextField;
     
     private String[] fileExtensions = { LoomConstants.TML_FILE_EXTENSION, LoomConstants.HTML_FILE_EXTENSION };
 
@@ -66,7 +66,7 @@ public class PreferencesPage extends PreferencePage implements IWorkbenchPrefere
     protected void performDefaults() {
         super.performDefaults();
         String defaultFileExtension = getPreferenceStore().getDefaultString(LoomConstants.TEMPLATE_FILE_EXTENSION_KEY);
-        String defaultTemplateFragmentRootPath = getPreferenceStore().getDefaultString(LoomConstants.DEFAULT_TEMPLATE_PACKAGE_FRAGMENT_ROOT);
+        String defaultTemplateFragmentRootPath = getPreferenceStore().getDefaultString(LoomConstants.TEMPLATE_PACKAGE_FRAGMENT_ROOT_KEY);
         selectComboFileExtension(defaultFileExtension);
         templateFragmentRootTextField.setText(defaultTemplateFragmentRootPath);
     }
@@ -84,7 +84,7 @@ public class PreferencesPage extends PreferencePage implements IWorkbenchPrefere
     public boolean performOk() {
         String selectedItem = fileExtensionCombo.getItem(fileExtensionCombo.getSelectionIndex());
         getPreferenceStore().setValue(LoomConstants.TEMPLATE_FILE_EXTENSION_KEY, selectedItem);
-        getPreferenceStore().setValue(LoomConstants.DEFAULT_TEMPLATE_PACKAGE_FRAGMENT_ROOT, templateFragmentRootTextField.getText());
+        getPreferenceStore().setValue(LoomConstants.TEMPLATE_PACKAGE_FRAGMENT_ROOT_KEY, templateFragmentRootTextField.getText());
         EditorFileOpener.getInstance().setTemplateFileExtension(selectedItem); 
         return super.performOk();
     }
