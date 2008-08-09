@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/loom_feature_1.0.3.jar" id="loom_feature" version="1.0.3"/>
+   <feature url="features/loom_feature_1.0.3.1.jar" id="loom_feature" version="1.0.3.1"/>
 </site>
