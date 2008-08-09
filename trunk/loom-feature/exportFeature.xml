@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="feature_export" name="build">
 	<target name="feature_export">
-		<pde.exportFeatures destination="/Users/chris/dev/loom-t5/trunk/loom-update-site" exportSource="false" exportType="directory" features="loom_feature" useJARFormat="true"/>
+		<pde.exportFeatures destination="/Users/chris/dev/loom-t5/trunk/loom-update-site/alpha" exportSource="false" exportType="directory" features="loom_feature" useJARFormat="true"/>
 	</target>
 </project>
