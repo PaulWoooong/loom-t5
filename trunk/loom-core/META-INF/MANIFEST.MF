@@ -15,5 +15,4 @@ Require-Bundle: org.eclipse.ui,
 Eclipse-LazyStart: true
 Bundle-Vendor: http://code.google.com/p/loom-t5
 Export-Package: org.digitalsoul.loom.core,
- org.digitalsoul.loom.core.prefs,
- org.digitalsoul.loom.core.wizard
+ org.digitalsoul.loom.core.prefs
