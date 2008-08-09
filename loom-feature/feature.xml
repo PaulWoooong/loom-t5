@@ -2,7 +2,7 @@
 <feature
       id="loom_feature"
       label="Loom Plugin For Tapestry 5"
-      version="1.0.3"
+      version="1.0.4"
       provider-name="http://code.google.com/p/loom-t5"
       plugin="loom_core">
 
@@ -34,7 +34,7 @@
    </license>
 
    <url>
-      <update label="Loom Update Site" url="http://digitalsoul.org/loom/update-site"/>
+      <update label="Loom Update Site" url="http://digitalsoul.org/loom/update-site/alpha"/>
    </url>
 
    <requires>
@@ -51,7 +51,7 @@
          id="loom_core"
          download-size="0"
          install-size="0"
-         version="1.0.3"
+         version="1.0.4"
          unpack="false"/>
 
 </feature>
