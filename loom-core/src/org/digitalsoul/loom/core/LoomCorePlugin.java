@@ -40,6 +40,6 @@ public class LoomCorePlugin extends AbstractUIPlugin {
 	
     @Override
     protected void initializeDefaultPluginPreferences () {
-        Preferences.setupDefaults(getDefault().getPreferenceStore());       
+        Preferences.setupDefaults();       
     }
 }
