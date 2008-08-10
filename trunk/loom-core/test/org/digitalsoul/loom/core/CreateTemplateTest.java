@@ -17,7 +17,7 @@ public class CreateTemplateTest extends ProjectBasedTest {
      */
     @Test
     public void testGetTemplateFolder() {
-        IFolder templateFolder = new TemplateBuilder().getTemplateFolder(builder.project);
+        IFolder templateFolder = new TemplateBuilder().getTemplateFragmentRoot(builder.project);
         Assert.assertTrue(templateFolder.exists());
         Assert.assertEquals("F/testProject/src/main/webapp", templateFolder.toString());
     }
@@ -48,7 +48,7 @@ public class CreateTemplateTest extends ProjectBasedTest {
     @Test
     public void testCreateTemplatePackage() {
         TemplateBuilder templateBuilder = new TemplateBuilder();
-        IFolder templateFolder = templateBuilder.getTemplateFolder(builder.project);
+        IFolder templateFolder = templateBuilder.getTemplateFragmentRoot(builder.project);
         IFolder packageFolder = templateFolder.getFolder("org/loom");
         Assert.assertFalse(packageFolder.exists());
         templateBuilder.createTemplatePackage(compilationUnit, templateFolder);
@@ -59,9 +59,20 @@ public class CreateTemplateTest extends ProjectBasedTest {
      * 
      */
     @Test
+    public void testTemplateIsCreatedInJavaFilesDirectory() {
+        Preferences.setCreateTemplateInJavaFolder(true);
+        IFile templateFile = new TemplateBuilder().createTemplate(compilationUnit);
+        Assert.assertTrue(templateFile.getParent().getFullPath().equals(javaFile.getParent().getFullPath()));
+        Preferences.getStore().setValue(LoomConstants.CREATE_TEMPLATE_IN_JAVA_FOLDER_KEY, false);
+    }
+    
+    /**
+     * 
+     */
+    @Test
     public void testCreateTemplate() {
         TemplateBuilder temlateBuilder = new TemplateBuilder();
-        IFolder templateFolder = temlateBuilder.getTemplateFolder(builder.project);
+        IFolder templateFolder = temlateBuilder.getTemplateFragmentRoot(builder.project);
         IFolder packageFolder = templateFolder.getFolder("org/loom");
         IFile templateFile = packageFolder.getFile("Wizard" + Preferences.getTemplateFileExtension());
         Assert.assertFalse(templateFile.exists());

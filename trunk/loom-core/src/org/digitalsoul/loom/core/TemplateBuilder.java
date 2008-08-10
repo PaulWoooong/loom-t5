@@ -18,19 +18,31 @@ import java.util.List;
  * Class TemplateBuilder
  */
 public class TemplateBuilder {
-
+//
+//    private ProjectBuilder builder;
+//
+//    public TemplateBuilder(IJavaProject javaProject) {
+//        this.builder = new ProjectBuilder(javaProject);
+//    }
     /**
      * @param unit
+     * @return 
      */
-    public void createTemplate(ICompilationUnit unit) {
-
-        IProject project = unit.getJavaProject().getProject();
-        IFolder templateFolder = getTemplateFolder(project);
-        IFolder packageFolder = createTemplatePackage(unit, templateFolder);
+    public IFile createTemplate(ICompilationUnit unit) {
+        IFile fileToCreate = null;
+        IFolder packageFolder = null;
+        if (Preferences.isCreateTemplateInJavaFolder()) {
+            packageFolder = (IFolder) unit.getParent().getResource(); 
+        }
+        else {
+            IProject project = unit.getJavaProject().getProject();
+            IFolder templateFolder = getTemplateFragmentRoot(project);
+            packageFolder = createTemplatePackage(unit, templateFolder);
+        }
         String filename = constructTemplateFilename(unit);
         String content = "Hello World";
         try {
-            IFile fileToCreate = packageFolder.getFile(filename);
+            fileToCreate = packageFolder.getFile(filename);
             if (!fileToCreate.exists()) {
                 fileToCreate.create(new ByteArrayInputStream(content.getBytes()), true, null);
             }
@@ -38,8 +50,13 @@ public class TemplateBuilder {
         catch (CoreException e) {
             e.printStackTrace();
         }
+        return fileToCreate;
     }
     
+    /**
+     * @param unit
+     * @return
+     */
     protected String constructTemplateFilename(ICompilationUnit unit) {
         return unit.getElementName().replace(".java", Preferences.getTemplateFileExtension());
     }
@@ -48,7 +65,7 @@ public class TemplateBuilder {
      * @param project
      * @return
      */
-    protected IFolder getTemplateFolder(IProject project) {
+    protected IFolder getTemplateFragmentRoot(IProject project) {
         return project.getFolder(Preferences.getTemplateFragmentRootPath());
     }
 

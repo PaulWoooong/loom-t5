@@ -1,40 +1,20 @@
+/**
+ * Copyright 2008 Loom Developers. This file is part of the loom eclipse plugin for eclipse
+ * and is licensed under the GPL version 3. 
+ * Please refer to the URL http://www.gnu.org/licenses/gpl-3.0.html for details.
+ */
 package org.digitalsoul.loom.core.prefs;
 
-
-import org.junit.After;
-
-import org.junit.Before;
-
-import org.digitalsoul.loom.core.BaseTester;
 import org.digitalsoul.loom.core.LoomConstants;
-import org.digitalsoul.loom.core.LoomCorePlugin;
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.preference.PreferenceDialog;
-import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.junit.Assert;
 import org.junit.Test;
+
 
 /**
  * Class PreferencesTest
  */
-public class PreferencesTest extends BaseTester {
-    
-    /**
-     * 
-     */
-    private IPreferenceStore store = LoomCorePlugin.getDefault().getPreferenceStore();
-    
-    /**
-     * 
-     */
-    @After
-    @Before
-    public void setup() {
-        PreferencesPage page = getPreferencesPage();
-        page.performDefaults();
-        page.performOk();
-    }
-    
+public class PreferencesTest extends BasePreferencesTest {
+
     /**
      * 
      */
@@ -42,6 +22,15 @@ public class PreferencesTest extends BaseTester {
     public void testTemplateFileExtensionDefaultIsCorrect() {
         String templateFileExtensionKey = LoomConstants.TEMPLATE_FILE_EXTENSION_KEY;
         Assert.assertEquals(LoomConstants.DEFAULT_TEMPLATE_FILE_EXTENSION, store.getDefaultString(templateFileExtensionKey)); 
+    }
+    
+    /**
+     * 
+     */
+    @Test
+    public void testTemplateFileInJavaFolderDefaultIsCorrect() {
+        String isCreateTemplateInJavaFolderKey = LoomConstants.CREATE_TEMPLATE_IN_JAVA_FOLDER_KEY;
+        Assert.assertEquals(LoomConstants.DEFAULT_CREATE_TEMPLATE_IN_JAVA_FOLDER, store.getDefaultBoolean(isCreateTemplateInJavaFolderKey)); 
     }
     
     /**
@@ -60,55 +49,5 @@ public class PreferencesTest extends BaseTester {
     public void testIgnoredFoldersDefaultIsCorrect() {
         String ignoredFoldersKey = LoomConstants.IGNORED_FOLDERS_KEY;
         Assert.assertEquals(LoomConstants.DEFAULT_IGNORED_FOLDERS, store.getDefaultString(ignoredFoldersKey));
-    }
-    
-    @Test
-    public void testTemplatePackageFragmentRootUsesSavedModel() {
-        PreferencesPage page = getPreferencesPage();
-        String root = "src/main";
-        page.templateFragmentRootTextField.setText(root);
-        page.performOk();
-        page = getPreferencesPage();
-        Assert.assertEquals(root, page.templateFragmentRootTextField.getText());
-    }
-    
-    @Test
-    public void testTemplateExtensionUsesSavedModel() {
-        PreferencesPage page = getPreferencesPage();
-        page.fileExtensionCombo.select(1);
-        page.performOk();
-        page = getPreferencesPage();
-        Assert.assertEquals(LoomConstants.HTML_FILE_EXTENSION, page.fileExtensionCombo.getItem(page.fileExtensionCombo.getSelectionIndex()));
-    }
-    
-    /**
-     * 
-     */
-    @Test
-    public void testChangingTemplatePackageFragmentRootChangesModel() {
-        PreferencesPage page = getPreferencesPage();
-        page.templateFragmentRootTextField.setText("/src/main");
-        page.performOk();
-        Assert.assertEquals("/src/main", Preferences.getTemplateFragmentRootPath());
-    }
-    
-    /**
-     * 
-     */
-    @Test
-    public void testChangingTemplateFileExtensionChangesModel() {
-        PreferencesPage page = getPreferencesPage();
-        page.fileExtensionCombo.select(1);
-        page.performOk();
-        Assert.assertEquals(LoomConstants.HTML_FILE_EXTENSION, Preferences.getTemplateFileExtension());
-    }
-
-    /**
-     * @return
-     */
-    private PreferencesPage getPreferencesPage() {
-        PreferenceDialog dialog = PreferencesUtil.createPreferenceDialogOn(getShell(), "org.digitalsoul.loom.core.prefs.PreferencesPage", null, null);
-        PreferencesPage page = (PreferencesPage) dialog.getSelectedPage();
-        return page;
     }
 }
