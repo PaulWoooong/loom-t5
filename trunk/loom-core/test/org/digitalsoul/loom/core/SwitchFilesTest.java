@@ -1,5 +1,6 @@
 package org.digitalsoul.loom.core;
 
+import org.digitalsoul.loom.core.prefs.Preferences;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
@@ -20,12 +21,17 @@ public class SwitchFilesTest extends ProjectBasedTest {
      * 
      */
     private IFile templateFile;
+    
+    /**
+     * 
+     */
+    private IFile localTemplateFile;
 
     /**
      * 
      */
     @Before
-    public void setupTemplateFile() {
+    public void setupTemplateFiles() {
 
         try {
             ProjectBuilder builder = new ProjectBuilder(javaProject);
@@ -35,6 +41,12 @@ public class SwitchFilesTest extends ProjectBasedTest {
             IFolder loomFolder = builder.createFolder(orgFolder, "loom");
             Assert.assertTrue(loomFolder.exists());
             templateFile = builder.createFile(loomFolder, "Wizard.html", "<html></html>");
+            Assert.assertTrue(templateFile.exists());
+            
+            IFolder localLoomFolder = builder.createFolder(builder.createFolder(javaFolder, "org"), "loom");
+            Assert.assertTrue(localLoomFolder.exists());
+            localTemplateFile = builder.createFile(localLoomFolder, "Wizard.tml", "bla");
+            Assert.assertTrue(localTemplateFile.exists());
         }
         catch (CoreException coreException) {
             coreException.printStackTrace();
@@ -46,12 +58,26 @@ public class SwitchFilesTest extends ProjectBasedTest {
      */
     @Test
     public void testSwitchToTemplate() {
-        EditorFileOpener.getInstance().setTemplateFileExtension(".html");
+        EditorFileOpener.getInstance().setTemplateFileExtension(LoomConstants.HTML_FILE_EXTENSION);
         EditorFileOpener.getInstance().switchToTemplateOrJavaFile(javaFile);
         IDE.setDefaultEditor(templateFile, "org.eclipse.ui.DefaultTextEditor");
         TextEditor currentEditor = (TextEditor) getActiveEditor();
         IFileEditorInput input = (IFileEditorInput) currentEditor.getEditorInput();
         Assert.assertEquals("Wizard.html", input.getFile().getName());
+    }
+    
+    /**
+     * 
+     */
+    @Test
+    public void testSwitchToLocalTemplate() {
+        Preferences.setCreateTemplateInJavaFolder(true);
+        EditorFileOpener.getInstance().setTemplateFileExtension(LoomConstants.TML_FILE_EXTENSION);
+        EditorFileOpener.getInstance().switchToTemplateOrJavaFile(javaFile);
+        IDE.setDefaultEditor(localTemplateFile, "org.eclipse.ui.DefaultTextEditor");
+        TextEditor currentEditor = (TextEditor) getActiveEditor();
+        IFileEditorInput input = (IFileEditorInput) currentEditor.getEditorInput();
+        Assert.assertEquals("Wizard.tml", input.getFile().getName());
     }
 
     /**
@@ -59,7 +85,7 @@ public class SwitchFilesTest extends ProjectBasedTest {
      */
     @Test
     public void testSwitchToJavaFile() {
-        EditorFileOpener.getInstance().setTemplateFileExtension(".html");
+        EditorFileOpener.getInstance().setTemplateFileExtension(LoomConstants.HTML_FILE_EXTENSION);
         EditorFileOpener.getInstance().switchToTemplateOrJavaFile(templateFile);
         JavaEditor currentEditor = (JavaEditor) getActiveEditor();
         IFileEditorInput input = (IFileEditorInput) currentEditor.getEditorInput();

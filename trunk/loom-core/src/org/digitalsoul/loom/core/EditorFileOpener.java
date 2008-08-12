@@ -6,20 +6,15 @@ package org.digitalsoul.loom.core;
 
 import org.digitalsoul.loom.core.prefs.Preferences;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.core.dom.MarkerAnnotation;
-import org.eclipse.jdt.internal.core.JavaElement;
 import org.eclipse.jdt.internal.core.JavaProject;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -105,11 +100,11 @@ public class EditorFileOpener {
                 //foundFile = switchToJavaFile(searchFilename, project);
             }
             
-            foundFile = findCachedFile(searchFilename);
+           // foundFile = findCachedFile(searchFilename);
             
-            if (foundFile == null) {
-                foundFile = switchToFile(searchFilename, project);
-            }
+            //if (foundFile == null) {
+            foundFile = switchToFile(contextMenuResource, searchFilename, project);
+           // }
 
             if (foundFile != null) {
                 synchronizeFile(foundFile, false);
@@ -132,6 +127,32 @@ public class EditorFileOpener {
 //        }
 //        return foundFile;
 //    }
+
+    /**
+     * @param contextMenuResource
+     * @param searchFilename
+     * @param project
+     * @return
+     */
+    private IFile switchToFile(IResource contextMenuResource, String searchFilename, IJavaProject project) {
+
+        IFile foundFile = null;
+
+        foundFile = findCachedFile(searchFilename);
+        if (foundFile == null) {
+            if (Preferences.isCreateTemplateInJavaFolder()) {
+                IFolder folder = (IFolder) contextMenuResource.getParent();
+                foundFile = folder.getFile(searchFilename);
+            }
+            else {
+//                if (searchFilename.contains(Preferences.getTemplateFileExtension())) {
+//                    
+//                }
+                foundFile = switchToFile(searchFilename, project);
+            }
+        }
+        return foundFile;
+    }
 
     private IFile switchToFile(String searchFilename, IJavaProject project) {
 

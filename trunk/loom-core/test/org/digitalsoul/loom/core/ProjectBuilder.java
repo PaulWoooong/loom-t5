@@ -63,7 +63,9 @@ public class ProjectBuilder {
      */
     public static void createFolder(IFolder folder) {
         try {
-            folder.create(true, true, null);
+            if (!folder.exists()) {
+                folder.create(true, true, null);
+            }
         }
         catch (CoreException e) {
             e.printStackTrace();
@@ -100,7 +102,9 @@ public class ProjectBuilder {
      */
     public IFolder createFolder(IContainer parentFolder, String foldername) throws CoreException {
         IFolder createdFolder = parentFolder.getFolder(new Path(foldername));
-        createdFolder.create(true, true, null);
+        if (!createdFolder.exists()) {
+            createdFolder.create(true, true, null);
+        }
         return createdFolder;
     }
 

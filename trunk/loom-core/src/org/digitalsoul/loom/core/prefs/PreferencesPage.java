@@ -137,8 +137,10 @@ public class PreferencesPage extends PreferencePage implements IWorkbenchPrefere
     @Override
     public boolean performOk() {
         String selectedItem = fileExtensionCombo.getItem(fileExtensionCombo.getSelectionIndex());
-        getPreferenceStore().setValue(LoomConstants.TEMPLATE_FILE_EXTENSION_KEY, selectedItem);
-        getPreferenceStore().setValue(LoomConstants.CREATE_TEMPLATE_IN_JAVA_FOLDER_KEY, createTemplateInJavaFolderCheckbox.getSelection());
+        Preferences.setCreateTemplateInJavaFolder(createTemplateInJavaFolderCheckbox.getSelection());
+        Preferences.setTemplateFileExtension(selectedItem);
+        //getPreferenceStore().setValue(LoomConstants.TEMPLATE_FILE_EXTENSION_KEY, selectedItem);
+        //getPreferenceStore().setValue(LoomConstants.CREATE_TEMPLATE_IN_JAVA_FOLDER_KEY, );
         getPreferenceStore().setValue(LoomConstants.TEMPLATE_PACKAGE_FRAGMENT_ROOT_KEY, templateFragmentRootTextField.getText());
         EditorFileOpener.getInstance().setTemplateFileExtension(selectedItem); 
         return super.performOk();
