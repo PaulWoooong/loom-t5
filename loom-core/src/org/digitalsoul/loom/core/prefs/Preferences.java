@@ -59,6 +59,10 @@ public class Preferences {
     public static void setCreateTemplateInJavaFolder(boolean value) {
         getStore().setValue(LoomConstants.CREATE_TEMPLATE_IN_JAVA_FOLDER_KEY, value);
     }
+    
+    public static void setTemplateFileExtension(String extension) {
+        getStore().setValue(LoomConstants.TEMPLATE_FILE_EXTENSION_KEY, extension);
+    }
 
     /**
      */
@@ -75,5 +79,6 @@ public class Preferences {
     public static void resetDefaults() {
         setupDefaults();
         setCreateTemplateInJavaFolder(getStore().getDefaultBoolean(LoomConstants.CREATE_TEMPLATE_IN_JAVA_FOLDER_KEY));
+        setTemplateFileExtension(getStore().getDefaultString(LoomConstants.TEMPLATE_FILE_EXTENSION_KEY));
     }
 }
