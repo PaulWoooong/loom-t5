@@ -1,31 +1,28 @@
 package org.digitalsoul.loom.core;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
-
-import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
-import java.util.List;
-
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jdt.core.IClasspathEntry;
-import org.eclipse.jdt.internal.ui.util.CoreUtility;
-
-import org.eclipse.jdt.core.IJavaProject;
-
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.runtime.Path;
-
-import org.eclipse.core.runtime.CoreException;
-
-import org.eclipse.core.resources.IProject;
-
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class ProjectBuilder
@@ -71,7 +68,11 @@ public class ProjectBuilder {
             e.printStackTrace();
         }
     }
-    
+
+    public IFolder getFolder(IPath path) {
+        return project.getFolder(path);
+    }
+
     /**
      * @param folder
      * @param filename
@@ -112,7 +113,6 @@ public class ProjectBuilder {
      * @param projectName
      */
     public void createJavaProject(String projectName) {
-
         try {
             String binFolderName = "bin";
             IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
@@ -148,7 +148,6 @@ public class ProjectBuilder {
      * 
      */
     private void addJavaNature() {
-
         try {
             IProjectDescription projectDescription = project.getDescription();
             String[] currentNatures = projectDescription.getNatureIds();
@@ -164,7 +163,7 @@ public class ProjectBuilder {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * 
      */
@@ -175,5 +174,29 @@ public class ProjectBuilder {
         catch (CoreException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * @param file
+     * @return
+     */
+    public static String readFileContents(File file) {
+        StringBuffer buffer = new StringBuffer();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line);
+            }
+            reader.close();
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return buffer.toString();
     }
 }

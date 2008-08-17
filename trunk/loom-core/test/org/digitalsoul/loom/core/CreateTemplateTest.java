@@ -1,5 +1,7 @@
 package org.digitalsoul.loom.core;
 
+import java.io.File;
+
 import org.digitalsoul.loom.core.prefs.Preferences;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -78,5 +80,18 @@ public class CreateTemplateTest extends ProjectBasedTest {
         Assert.assertFalse(templateFile.exists());
         temlateBuilder.createTemplate(compilationUnit);
         Assert.assertTrue(templateFile.exists());
+    }
+    
+    /**
+     * 
+     */
+    @Test
+    public void testNewTemplateUsesMarkup() {
+        String markup = "xyz";
+        Preferences.setTemplateMarkup(markup);
+        IFile templateFile = new TemplateBuilder().createTemplate(compilationUnit);
+        File file = templateFile.getRawLocation().toFile();
+        String readMarkup = ProjectBuilder.readFileContents(file);
+        Assert.assertEquals(markup, readMarkup);
     }
 }

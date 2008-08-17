@@ -4,6 +4,7 @@ import org.digitalsoul.loom.core.prefs.Preferences;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.editors.text.TextEditor;
@@ -15,7 +16,7 @@ import org.junit.Test;
 /**
  * Class SwitchFilesTest
  */
-public class SwitchFilesTest extends ProjectBasedTest {
+public class EditorFileOpenerTest extends ProjectBasedTest {
 
     /**
      * 
@@ -58,7 +59,7 @@ public class SwitchFilesTest extends ProjectBasedTest {
      */
     @Test
     public void testSwitchToTemplate() {
-        EditorFileOpener.getInstance().setTemplateFileExtension(LoomConstants.HTML_FILE_EXTENSION);
+        Preferences.setTemplateFileExtension(LoomConstants.HTML_FILE_EXTENSION);
         EditorFileOpener.getInstance().switchToTemplateOrJavaFile(javaFile);
         IDE.setDefaultEditor(templateFile, "org.eclipse.ui.DefaultTextEditor");
         TextEditor currentEditor = (TextEditor) getActiveEditor();
@@ -70,9 +71,19 @@ public class SwitchFilesTest extends ProjectBasedTest {
      * 
      */
     @Test
+    public void testGetTemplateFilePath() {
+        Assert.assertEquals("src/main/java/org/loom/Wizard.java", javaFile.getProjectRelativePath().toPortableString());
+        IPath path = EditorFileOpener.getInstance().getTemplateFilePath(javaFile);
+        Assert.assertEquals("src/main/webapp/org/loom", path.toPortableString());
+    }
+    
+    /**
+     * 
+     */
+    @Test
     public void testSwitchToLocalTemplate() {
         Preferences.setCreateTemplateInJavaFolder(true);
-        EditorFileOpener.getInstance().setTemplateFileExtension(LoomConstants.TML_FILE_EXTENSION);
+        Preferences.setTemplateFileExtension(LoomConstants.TML_FILE_EXTENSION);
         EditorFileOpener.getInstance().switchToTemplateOrJavaFile(javaFile);
         IDE.setDefaultEditor(localTemplateFile, "org.eclipse.ui.DefaultTextEditor");
         TextEditor currentEditor = (TextEditor) getActiveEditor();
@@ -85,7 +96,7 @@ public class SwitchFilesTest extends ProjectBasedTest {
      */
     @Test
     public void testSwitchToJavaFile() {
-        EditorFileOpener.getInstance().setTemplateFileExtension(LoomConstants.HTML_FILE_EXTENSION);
+        Preferences.setTemplateFileExtension(LoomConstants.HTML_FILE_EXTENSION);
         EditorFileOpener.getInstance().switchToTemplateOrJavaFile(templateFile);
         JavaEditor currentEditor = (JavaEditor) getActiveEditor();
         IFileEditorInput input = (IFileEditorInput) currentEditor.getEditorInput();
