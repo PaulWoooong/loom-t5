@@ -46,6 +46,24 @@ public class PreferencesTest extends BasePreferencesTest {
      * 
      */
     @Test
+    public void testJavaPackageFragmentRootDefaultIsCorrect() {
+        String javaPackageFragmentRootKey = LoomConstants.JAVA_PACKAGE_FRAGMENT_ROOT_KEY;
+        Assert.assertEquals(LoomConstants.DEFAULT_JAVA_PACKAGE_FRAGMENT_ROOT, store.getDefaultString(javaPackageFragmentRootKey));
+    }
+    
+    /**
+     * 
+     */
+    @Test
+    public void testTemplateMarkupDefaultIsCorrect() {
+        String markupKey = LoomConstants.TEMPLATE_MARKUP_KEY;
+        Assert.assertEquals(LoomConstants.DEFAULT_TEMPLATE_MARKUP, store.getDefaultString(markupKey));
+    }
+    
+    /**
+     * 
+     */
+    @Test
     public void testIgnoredFoldersDefaultIsCorrect() {
         String ignoredFoldersKey = LoomConstants.IGNORED_FOLDERS_KEY;
         Assert.assertEquals(LoomConstants.DEFAULT_IGNORED_FOLDERS, store.getDefaultString(ignoredFoldersKey));

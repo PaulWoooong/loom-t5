@@ -18,12 +18,7 @@ import java.util.List;
  * Class TemplateBuilder
  */
 public class TemplateBuilder {
-//
-//    private ProjectBuilder builder;
-//
-//    public TemplateBuilder(IJavaProject javaProject) {
-//        this.builder = new ProjectBuilder(javaProject);
-//    }
+
     /**
      * @param unit
      * @return 
@@ -40,7 +35,7 @@ public class TemplateBuilder {
             packageFolder = createTemplatePackage(unit, templateFolder);
         }
         String filename = constructTemplateFilename(unit);
-        String content = "Hello World";
+        String content = Preferences.getTemplateMarkup();
         try {
             fileToCreate = packageFolder.getFile(filename);
             if (!fileToCreate.exists()) {
