@@ -180,47 +180,7 @@ public class PreferencesPageTest extends BasePreferencesTest {
      * 
      */
     @Test
-    public void testMarkupIsShownInTextAreaOnSave() {
-        File file = createDemoFile();
-        page.setTemplateMarkup(file);
-        Assert.assertEquals(page.markup, page.markupTextArea.getText());
-    }
-
-    /**
-     * 
-     */
-    @Test
     public void testMarkupIsShownInTextAreaByDefault() {
         Assert.assertEquals("<html></html>", page.markupTextArea.getText());
-    }
-    
-    /**
-     * 
-     */
-    @Test
-    public void testSetTemplateMarkup() {
-        File file = createDemoFile();
-        Assert.assertTrue(file.exists());
-        page.setTemplateMarkup(file);
-        Assert.assertEquals("<html>/nchris/n</html>", page.markup);
-        file.delete();
-        Assert.assertTrue(!file.exists());
-    }
-
-    /**
-     * @return
-     */
-    private File createDemoFile() {
-        File file = new File("markup.txt");
-        PrintWriter writer;
-        try {
-            writer = new PrintWriter(file);
-            writer.append("<html>/nchris/n</html>");
-            writer.close();
-        }
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return file;
     }
 }
