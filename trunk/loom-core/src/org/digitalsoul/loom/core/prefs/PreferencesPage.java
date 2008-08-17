@@ -53,27 +53,12 @@ public class PreferencesPage extends PreferencePage implements IWorkbenchPrefere
     /**
      * 
      */
-    protected Button importMarkupButton;
-
-    /**
-     * 
-     */
-    protected String markup;
-    
-    /**
-     * 
-     */
     private String[] fileExtensions = { LoomConstants.TML_FILE_EXTENSION, LoomConstants.HTML_FILE_EXTENSION };
 
     /**
      * 
      */
     protected Listener checkboxSelectionListener;
-
-    /**
-     * 
-     */
-    private Listener importMarkupButtonListener;
 
     /**
      * 
@@ -101,6 +86,9 @@ public class PreferencesPage extends PreferencePage implements IWorkbenchPrefere
         fileExtensionCombo.setItems(fileExtensions);
         fileExtensionCombo.setVisibleItemCount(fileExtensions.length);
 
+        label = new Label(composite, SWT.NONE);
+        label.setText("");
+        
         templateFragmentRootTextField = createLabelAndTextField(composite, "Template Package Fragment Root");
         javaFragmentRootTextField = createLabelAndTextField(composite, "Java Package Fragment Root");
 
@@ -117,45 +105,27 @@ public class PreferencesPage extends PreferencePage implements IWorkbenchPrefere
             }
         };
         createTemplateInJavaFolderCheckbox.addListener(SWT.Selection, checkboxSelectionListener);
-        importMarkupButton = new Button(composite, SWT.DEFAULT);
-        importMarkupButton.setText("Import Markup");
-        importMarkupButtonListener = new Listener() {
+        
+        label = new Label(composite, SWT.NONE);
+        label.setText("");
 
-            public void handleEvent(Event event) {
-                String filePath = new FileDialog(composite.getShell(), SWT.OPEN).open();
-                if (filePath != null) {
-                    File file = new File(filePath);
-                    if (file.exists() && file.canRead()) {
-                        setTemplateMarkup(file);
-                    }
-                }
-            }
-        };
-        importMarkupButton.addListener(SWT.Selection, importMarkupButtonListener);
+        label = new Label(composite, SWT.NONE);
+        label.setText("Template Markup");
         markupTextArea = new Text(composite, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
         GridData data = new GridData();
-        data.minimumWidth = 400;
-        data.minimumHeight = 200;
+        data.minimumWidth = 350;
+        data.minimumHeight = 100;
         data.grabExcessHorizontalSpace = true;
         data.grabExcessVerticalSpace = true;
         markupTextArea.setLayoutData(data);
-        markupTextArea.setEditable(false);
         setupLoadedPreferences();
         return parent;
     }
     
     /**
-     * @param file
-     */
-    protected void setTemplateMarkup(File file) {
-        setMarkup(ProjectBuilder.readFileContents(file));
-    }
-
-    /**
      * @param readFileContents
      */
     private void setMarkup(String markup) {
-        this.markup = markup;
         markupTextArea.setText(markup);        
     }
 
@@ -233,7 +203,7 @@ public class PreferencesPage extends PreferencePage implements IWorkbenchPrefere
         Preferences.setTemplateFileExtension(selectedItem);
         Preferences.setTemplatePackageFragmentRoot(templateFragmentRootTextField.getText());
         Preferences.setJavaPackageFragmentRoot(javaFragmentRootTextField.getText());
-        Preferences.setTemplateMarkup(markup);
+        Preferences.setTemplateMarkup(markupTextArea.getText());
         return super.performOk();
     }
 
