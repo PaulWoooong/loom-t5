@@ -7,5 +7,5 @@
       <category name="release"/>
    </feature>
    <category-def name="beta" label="Development Version"/>
-   <category-def name="realease" label="Stable Version"/>
+   <category-def name="release" label="Stable Version"/>
 </site>
