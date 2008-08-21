@@ -59,6 +59,7 @@ public class EditorFileOpenerTest extends ProjectBasedTest {
      */
     @Test
     public void testSwitchToTemplate() {
+        Preferences.setJavaPackageFragmentRoot("src/main/javaxx");
         Preferences.setTemplateFileExtension(LoomConstants.HTML_FILE_EXTENSION);
         EditorFileOpener.getInstance().switchToTemplateOrJavaFile(javaFile);
         IDE.setDefaultEditor(templateFile, "org.eclipse.ui.DefaultTextEditor");
@@ -72,7 +73,8 @@ public class EditorFileOpenerTest extends ProjectBasedTest {
      */
     @Test
     public void testGetTemplateFilePath() {
-        Assert.assertEquals("src/main/java/org/loom/Wizard.java", javaFile.getProjectRelativePath().toPortableString());
+        Preferences.setJavaPackageFragmentRoot("src/main/javaxx");
+        Assert.assertEquals("src/main/javaxx/org/loom/Wizard.java", javaFile.getProjectRelativePath().toPortableString());
         IPath path = EditorFileOpener.getInstance().getTemplateFilePath(javaFile);
         Assert.assertEquals("src/main/webapp/org/loom", path.toPortableString());
     }

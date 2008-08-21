@@ -29,7 +29,7 @@ public class CreateTemplateTest extends ProjectBasedTest {
      */
     @Test
     public void testGetPackageNames() {
-        String[] packageNames = new TemplateBuilder().getPackageNames(compilationUnit);
+        String[] packageNames = new TemplateBuilder().getPackageNames(javaCompilationUnit);
         Assert.assertEquals(2, packageNames.length);
         Assert.assertEquals("org", packageNames[0]);
         Assert.assertEquals("loom", packageNames[1]); 
@@ -40,7 +40,7 @@ public class CreateTemplateTest extends ProjectBasedTest {
      */
     @Test
     public void testConstructFilename() {
-        String filename = new TemplateBuilder().constructTemplateFilename(compilationUnit);
+        String filename = new TemplateBuilder().constructTemplateFilename(javaCompilationUnit);
         Assert.assertEquals("Wizard.tml", filename);
     }
     
@@ -53,7 +53,7 @@ public class CreateTemplateTest extends ProjectBasedTest {
         IFolder templateFolder = templateBuilder.getTemplateFragmentRoot(builder.project);
         IFolder packageFolder = templateFolder.getFolder("org/loom");
         Assert.assertFalse(packageFolder.exists());
-        templateBuilder.createTemplatePackage(compilationUnit, templateFolder);
+        templateBuilder.createTemplatePackage(javaCompilationUnit, templateFolder);
         Assert.assertTrue(packageFolder.exists());
     }
     
@@ -63,7 +63,7 @@ public class CreateTemplateTest extends ProjectBasedTest {
     @Test
     public void testTemplateIsCreatedInJavaFilesDirectory() {
         Preferences.setCreateTemplateInJavaFolder(true);
-        IFile templateFile = new TemplateBuilder().createTemplate(compilationUnit);
+        IFile templateFile = new TemplateBuilder().createTemplate(javaCompilationUnit);
         Assert.assertTrue(templateFile.getParent().getFullPath().equals(javaFile.getParent().getFullPath()));
         Preferences.getStore().setValue(LoomConstants.CREATE_TEMPLATE_IN_JAVA_FOLDER_KEY, false);
     }
@@ -78,7 +78,7 @@ public class CreateTemplateTest extends ProjectBasedTest {
         IFolder packageFolder = templateFolder.getFolder("org/loom");
         IFile templateFile = packageFolder.getFile("Wizard" + Preferences.getTemplateFileExtension());
         Assert.assertFalse(templateFile.exists());
-        temlateBuilder.createTemplate(compilationUnit);
+        temlateBuilder.createTemplate(javaCompilationUnit);
         Assert.assertTrue(templateFile.exists());
     }
     
@@ -89,7 +89,7 @@ public class CreateTemplateTest extends ProjectBasedTest {
     public void testNewTemplateUsesMarkup() {
         String markup = "xyz";
         Preferences.setTemplateMarkup(markup);
-        IFile templateFile = new TemplateBuilder().createTemplate(compilationUnit);
+        IFile templateFile = new TemplateBuilder().createTemplate(javaCompilationUnit);
         File file = templateFile.getRawLocation().toFile();
         String readMarkup = ProjectBuilder.readFileContents(file);
         Assert.assertEquals(markup, readMarkup);

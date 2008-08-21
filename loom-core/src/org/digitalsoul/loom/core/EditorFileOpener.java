@@ -168,7 +168,7 @@ public class EditorFileOpener {
      */
     protected IPath getTemplateFilePath(IResource selectedJavaFile) {
         String path = selectedJavaFile.getParent().getProjectRelativePath().toPortableString();
-        path = path.replaceAll("src/main/java", Preferences.getTemplateFragmentRootPath());
+        path = path.replaceAll(Preferences.getJavaFragmentRootPath(), Preferences.getTemplateFragmentRootPath());
         return new Path(path);
     }
 
