@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/loom_feature_1.0.2.jar" id="loom_feature" version="1.0.2"/>
-   <feature url="features/loom_feature_1.0.4.jar" id="loom_feature" version="1.0.4"/>
+   <feature url="features/loom_feature_1.0.4.jar" id="loom_feature" version="1.0.4">
+      <category name="beta"/>
+   </feature>
+   <feature url="features/loom_feature_1.0.2.jar" id="loom_feature" version="1.0.2">
+      <category name="release"/>
+   </feature>
+   <category-def name="beta" label="Development Version"/>
+   <category-def name="realease" label="Stable Version"/>
 </site>
