@@ -8,3 +8,4 @@ Further characteristics are:
   * a file which is being switched to will be opened in case it wasn't before
   * the default ending of .tml can be changed on the Preferences page to .html
   * *this action can be triggered by the shortcut Ctrl-Alt-x*
+  * the location for java/template files can be defined in the preferences
