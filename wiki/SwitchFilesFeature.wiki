@@ -9,3 +9,5 @@ Further characteristics are:
   * the default ending of .tml can be changed on the Preferences page to .html
   * *this action can be triggered by the shortcut Ctrl-Alt-x*
   * the location for java/template files can be defined in the preferences
+
+[http://digitalsoul.org/loom/images/switch_to_file.png]
