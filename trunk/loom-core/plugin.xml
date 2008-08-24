@@ -36,7 +36,6 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            category="Loom"
             class="org.digitalsoul.loom.core.prefs.PreferencesPage"
             id="org.digitalsoul.loom.core.prefs.PreferencesPage"
             name="Loom">
