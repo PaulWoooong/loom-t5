@@ -11,4 +11,4 @@ Further characteristics are:
   * *this action can be triggered by the shortcut Ctrl-Alt-x*
   * *the location for java/template files has to be defined in the preferences*
 
-[http://digitalsoul.org/loom/images/switch_to_file.png]
+[http://2drockers.com/loom/images/switch_to_file.png]
