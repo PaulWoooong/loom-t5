@@ -4,4 +4,4 @@ In order to use this feature for wicket just tick the checkbox -Always create a 
 
 In the markup textarea you can define the markup that is used when a template is created for a java file:
 
-[http://digitalsoul.org/loom/images/preferences.png]
+[http://2drockers.com/loom/images/preferences.png]
